@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
   isExpanded: boolean;

@@ -25,10 +25,10 @@
           aria-labelledby="navbarDropdown"
           [class.show]="isExpanded"
           >
-          <a class="dropdown-item" href="#">My Orders</a>
-          <a class="dropdown-item" href="#">Manage Orders</a>
-          <a class="dropdown-item" href="#">Manage Products</a>
-          <a class="dropdown-item" href="#">Log Out</a>
+          <a class="dropdown-item" [routerLink]="['/my-orders']" (click)="toggle()" >My Orders</a>
+          <a class="dropdown-item" [routerLink]="['/admin/orders']" (click)="toggle()" >Manage Orders</a>
+          <a class="dropdown-item" [routerLink]="['/admin/products']" (click)="toggle()" >Manage Products</a>
+          <a class="dropdown-item" href="#" (click)="toggle()" >Log Out</a>
         </div>
       </li>
     </ul>

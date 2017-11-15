@@ -9,9 +9,9 @@
       <li class="nav-item active">
         <a class="nav-link" [routerLink]="['/shopping-cart']">Shopping Cart<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown">
+      <li ngbDropdown class="nav-item dropdown">
         <a 
-        (click)="toggle()"
+        ngbDropdownToggle
         class="nav-link dropdown-toggle" 
         id="navbarDropdown" 
         role="button" 
@@ -21,14 +21,14 @@
          Username 
         </a>
         <div 
+          ngbDropdownMenu
           class="dropdown-menu" 
           aria-labelledby="navbarDropdown"
-          [class.show]="isExpanded"
           >
-          <a class="dropdown-item" [routerLink]="['/my-orders']" (click)="toggle()" >My Orders</a>
-          <a class="dropdown-item" [routerLink]="['/admin/orders']" (click)="toggle()" >Manage Orders</a>
-          <a class="dropdown-item" [routerLink]="['/admin/products']" (click)="toggle()" >Manage Products</a>
-          <a class="dropdown-item" href="#" (click)="toggle()" >Log Out</a>
+          <a class="dropdown-item" [routerLink]="['/my-orders']" >My Orders</a>
+          <a class="dropdown-item" [routerLink]="['/admin/orders']" >Manage Orders</a>
+          <a class="dropdown-item" [routerLink]="['/admin/products']" >Manage Products</a>
+          <a class="dropdown-item" href="#" >Log Out</a>
         </div>
       </li>
     </ul>

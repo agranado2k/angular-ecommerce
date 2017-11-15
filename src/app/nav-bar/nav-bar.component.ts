@@ -6,10 +6,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  isExpanded: boolean;
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
 
 }

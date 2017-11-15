@@ -12,25 +12,33 @@
       <li ngbDropdown class="nav-item dropdown">
         <a 
         ngbDropdownToggle
+        *ngIf="appUser; else anonymousUser"
         class="nav-link dropdown-toggle" 
         id="navbarDropdown" 
         role="button" 
         data-toggle="dropdown" 
         aria-haspopup="true" 
         aria-expanded="false">
-         Username 
+         {{ appUser.name}}
         </a>
         <div 
           ngbDropdownMenu
           class="dropdown-menu" 
           aria-labelledby="navbarDropdown"
           >
-          <a class="dropdown-item" [routerLink]="['/my-orders']" >My Orders</a>
-          <a class="dropdown-item" [routerLink]="['/admin/orders']" >Manage Orders</a>
-          <a class="dropdown-item" [routerLink]="['/admin/products']" >Manage Products</a>
-          <a class="dropdown-item" href="#" >Log Out</a>
+          <a class="dropdown-item" [routerLink]="['/my/orders']" >My Orders</a>
+          <ng-container *ngIf="appUser && appUser.isAdmin" >
+            <a  class="dropdown-item" [routerLink]="['/admin/orders']" >Manage Orders</a>
+            <a  class="dropdown-item" [routerLink]="['/admin/products']" >Manage Products</a>
+          </ng-container>
+          <a class="dropdown-item" (click)="logout()" >Log Out</a>
         </div>
       </li>
+      <ng-template #anonymousUser >
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/login']">Login<span class="sr-only">(current)</span></a>
+        </li>
+      </ng-template>
     </ul>
   </div>
 </nav>

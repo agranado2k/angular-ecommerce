@@ -1,3 +1,6 @@
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { UsersService } from './services/users.service';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,17 +21,21 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
+import { AuthService } from './services/auth.service';
+import { ProductFormComponent } from './product-form/product-form.component';
 
 const routes = [
   {path: '', component: HomeComponent },
+  {path: 'login', component: LoginComponent },
   {path: 'products', component: ProductsComponent },
   {path: 'shopping-cart', component: ShoppingCartComponent },
-  {path: 'check-out', component: CheckOutComponent },
-  {path: 'order-success', component: OrderSuccessComponent },
-  {path: 'my-orders', component: MyOrdersComponent },
-  {path: 'login', component: LoginComponent },
-  {path: 'admin/products', component: AdminProductsComponent },
-  {path: 'admin/orders', component: AdminOrdersComponent }
+
+  {path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
+  {path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
+  {path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
+
+  {path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+  {path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
 ];
 
 @NgModule({
@@ -43,7 +50,8 @@ const routes = [
     MyOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    LoginComponent
+    LoginComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +61,12 @@ const routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    UsersService,
+    AuthGuard,
+    AdminAuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

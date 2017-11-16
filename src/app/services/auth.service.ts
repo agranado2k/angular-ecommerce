@@ -20,8 +20,13 @@ export class AuthService {
 
     this.user = afAuth.authState;
     this.user.subscribe(user => {
-      if (user) this.usersServices.create(user);
-      const url = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+      if (!user) return;
+
+      this.usersServices.create(user);
+
+      const url = this.route.snapshot.queryParamMap.get('returnUrl');
+      if (!url) return;
+
       this.router.navigateByUrl(url);
     });
   }

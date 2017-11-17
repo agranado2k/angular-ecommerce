@@ -1,3 +1,4 @@
+import { OrderService } from './order.service';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
@@ -31,6 +32,8 @@ import { ProductFilterComponent } from './products/product-filter/product-filter
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ShoppingCartService } from './shopping-cart.service';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CheckOutFormComponent } from './check-out-form/check-out-form.component';
 
 const routes = [
   {path: '', component: ProductsComponent },
@@ -39,7 +42,7 @@ const routes = [
   {path: 'shopping-cart', component: ShoppingCartComponent },
 
   {path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
-  {path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
+  {path: 'order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuard] },
   {path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
 
   {path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
@@ -64,7 +67,9 @@ const routes = [
     ProductFormComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    OrderSummaryComponent,
+    CheckOutFormComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ const routes = [
     CategoryService,
     ProductService,
     ShoppingCartService,
+    OrderService,
     AuthGuard,
     AdminAuthGuard
   ],

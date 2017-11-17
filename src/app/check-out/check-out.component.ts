@@ -1,16 +1,19 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ShoppingCart } from './../models/shopping-cart';
+import { Observable } from 'rxjs/Observable';
+import { ShoppingCartService } from './../shopping-cart.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-check-out',
   templateUrl: './check-out.component.html',
-  styleUrls: ['./check-out.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./check-out.component.css']
 })
 export class CheckOutComponent implements OnInit {
+  cart$: Observable<ShoppingCart>;
 
-  constructor() { }
+  constructor(private cartService: ShoppingCartService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.cart$ = await this.cartService.getCart();
   }
-
 }

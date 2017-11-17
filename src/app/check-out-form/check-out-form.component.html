@@ -1,0 +1,27 @@
+<form #f="ngForm" (submit)="placeOrder(f.value)">
+  <div class="form-group">
+    <label for="">Name</label>
+    <input required #name="ngModel" ngModel name="name" placeholder="Name" id="name" type="text" class="form-control">
+    <div *ngIf="name.touched && name.invalid" class="alert alert-danger">
+      Name is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="">Address</label>
+    <input required #addressLine1="ngModel" ngModel name="addressLine1" placeholder="Line 1" id="addressLine1" type="text" class="form-control">
+    <div *ngIf="addressLine1.touched && addressLine1.invalid" class="alert alert-danger">
+      Name is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <input ngModel name="addressLine2" id="addressLine2" placeholder="Line 2" type="text" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="">City</label>
+    <input required #city="ngModel" ngModel name="city" id="city" placeholder="City" type="text" class="form-control">
+    <div *ngIf="city.touched && city.invalid" class="alert alert-danger">
+      Name is required.
+    </div>
+  </div>
+  <button [disabled]="f.invalid" class="btn btn-primary">Place Order</button>
+</form>

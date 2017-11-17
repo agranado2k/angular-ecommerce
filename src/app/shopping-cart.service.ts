@@ -1,3 +1,4 @@
+import { ShoppingCartItem } from './models/shopping-cart-item';
 import { Product } from './models/product';
 import { ShoppingCart } from './models/shopping-cart';
 import { Observable } from 'rxjs/Observable';
@@ -10,17 +11,6 @@ export class ShoppingCartService {
 
   constructor(private afDb: AngularFireDatabase) { }
 
-  create() {
-    return this.afDb.list('/shopping-cart').push({
-      createdDate: new Date().getTime()
-    });
-  }
-
-  get(id) {
-    return this.afDb.object(`/shopping-cart/${id}`)
-      .snapshotChanges()
-      .map(c => ({ key: c.payload.key, ...c.payload.val() }));
-  }
 
   async getCart(): Promise<Observable<ShoppingCart>> {
     const cartId = await this.getOrCreateCartId();
@@ -35,16 +25,25 @@ export class ShoppingCartService {
     this.updateCartQuantity(product, -1);
   }
 
+  async clearCart() {
+    let cartId = await this.getOrCreateCartId();
+    this.afDb.object(`/shopping-cart/${cartId}/items`).remove();
+  }
+
   private async updateCartQuantity(product: Product, change: number) {
     const cartId = await this.getOrCreateCartId();
     const item$ = this.getItem(cartId, product.key);
-    item$.valueChanges().take(1).subscribe(item => {
-      item$.update({
-        title: product.title,
-        imageUrl: product.imageUrl,
-        price: product.price,
-        quantity: (item && item.quantity || 0) + change
-      });
+    item$.valueChanges().take(1).subscribe((item: ShoppingCartItem) => {
+      let quantity = (item && item.quantity || 0) + change;
+      if (quantity === 0 )
+        item$.remove();
+      else
+        item$.update({
+          title: product.title,
+          imageUrl: product.imageUrl,
+          price: product.price,
+          quantity: quantity
+        });
     });
   }
 
@@ -56,8 +55,20 @@ export class ShoppingCartService {
     let cartId = localStorage.getItem('cartId');
     if (cartId) return cartId;
 
-    const result = await this.cartService.create();
+    const result = await this.create();
     localStorage.setItem('cartId', result.key);
     return result.key;
+  }
+
+  private create() {
+    return this.afDb.list('/shopping-cart').push({
+      createdDate: new Date().getTime()
+    });
+  }
+
+  private get(id) {
+    return this.afDb.object(`/shopping-cart/${id}`)
+      .snapshotChanges()
+      .map(c => ({ key: c.payload.key, ...c.payload.val() }));
   }
 }

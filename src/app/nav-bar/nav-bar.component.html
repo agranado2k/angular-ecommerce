@@ -7,7 +7,12 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/shopping-cart']">Shopping Cart<span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/shopping-cart']" *ngIf="(cart$ | async) as cart" >
+          Shopping Cart
+          <span class="badge badge-warning badge-pill">
+            {{ cart.itemsCount }}
+          </span>
+        </a>
       </li>
       <li ngbDropdown class="nav-item dropdown">
         <a 
@@ -36,7 +41,7 @@
       </li>
       <ng-template #anonymousUser >
         <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/login']">Login<span class="sr-only">(current)</span></a>
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
         </li>
       </ng-template>
     </ul>

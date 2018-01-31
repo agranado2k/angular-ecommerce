@@ -16,7 +16,7 @@ export class UsersService {
     });
   }
 
-  getById(id: string): Observable<AppUser> {
+  getById(id: string): Observable<any> {
     return this.afDb.object(`/users/${id}`).valueChanges();
   }
 }
